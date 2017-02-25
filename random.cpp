@@ -19,7 +19,7 @@ int n;    /*Number of vertices in the graph*/
 int adj[MAX][MAX]; /*Adjacency Matrix*/
 int state[MAX]; /*can be initial, waiting or visited*/
 void create_graph();
-void printAllPathsUtil(int u, int d, bool visited[],
+void printAllPathsUtil(int z,int u, int d, bool visited[],
                               int path[], int &path_index);
 void printAllPaths(int s, int d)
 {
@@ -35,10 +35,10 @@ void printAllPaths(int s, int d)
         visited[i] = false;
  
     // Call the recursive helper function to print all paths
-    printAllPathsUtil(s, d, visited, path, path_index);
+    printAllPathsUtil(s,s, d, visited, path, path_index);
 }
 
-void printAllPathsUtil(int u, int d, bool visited[],
+void printAllPathsUtil(int z,int u, int d, bool visited[],
                               int path[], int &path_index)
 {
     // Mark the current node and store it in path[]
@@ -50,13 +50,13 @@ void printAllPathsUtil(int u, int d, bool visited[],
     // current path[]
     if (u == d)
     {
-    	nodes[0].dis[d].route.push_back(vector<int>());
-    	int l=nodes[0].dis[d].route.size();
+    	nodes[z].dis[d].route.push_back(vector<int>());
+    	int l=nodes[z].dis[d].route.size();
 
         for (int i = 0; i<path_index; i++)
             {
             	cout << path[i] << " ";
-            	nodes[0].dis[d].route[l-1].push_back(path[i]);
+            	nodes[z].dis[d].route[l-1].push_back(path[i]);
 
 
         }
@@ -73,7 +73,7 @@ void printAllPathsUtil(int u, int d, bool visited[],
         for(int i=0;i<V;i++)
         {
         	if(adj[u][i] == 1 && visited[i]==false)
-        		 printAllPathsUtil(i, d, visited, path, path_index);
+        		 printAllPathsUtil(z,i, d, visited, path, path_index);
         }
     }
  
@@ -84,23 +84,31 @@ void printAllPathsUtil(int u, int d, bool visited[],
 int main()
 {
     create_graph();
-    for(int i=0;i<4;i++)
+    for(int i=0;i<4;i++){
+
+    	for(int j=0;j<4;j++)
     {
-    	printAllPaths(0,i);
+    	printAllPaths(i,j);
     }
+    }
+    
     cout<<endl;
     //int l=nodes[0].route.size();
    //  cout<<l<<endl;
-    for(int i=0;i<4;i++){
-    	int l=nodes[0].dis[i].route.size();
+    for(int y=0;y<4;y++)
+    {
+    	for(int i=0;i<4;i++){
+    	int l=nodes[y].dis[i].route.size();
         for(int j=0;j<l;j++)
         {
-        	int k=nodes[0].dis[i].route[j].size();
+        	int k=nodes[y].dis[i].route[j].size();
         	for(int z=0;z<k;z++)
-        		cout<<nodes[0].dis[i].route[j][z]<<" ";
+        		cout<<nodes[y].dis[i].route[j][z]<<" ";
         	   cout<<endl;
         }
     }
+    }
+    
 	return 0;
 }
 void create_graph()
