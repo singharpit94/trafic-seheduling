@@ -4,17 +4,25 @@ using namespace std;
 #define INF 99999
 #define MAX 100  
 
+struct places
+{
+	int lvi;
+	int slvi;
+};
+
+struct places junc[V];
+
 struct des{
 		vector <vector<int> > route;
 	};
 
 struct distances
 {
-  struct des dis[4];
+  struct des dis[V];
 	
 };
 
-struct distances nodes[4];
+struct distances nodes[V];
 int n;    /*Number of vertices in the graph*/
 int adj[MAX][MAX]; /*Adjacency Matrix*/
 int state[MAX]; /*can be initial, waiting or visited*/
@@ -55,12 +63,12 @@ void printAllPathsUtil(int z,int u, int d, bool visited[],
 
         for (int i = 0; i<path_index; i++)
             {
-            	cout << path[i] << " ";
+            	//cout << path[i] << " ";
             	nodes[z].dis[d].route[l-1].push_back(path[i]);
 
 
         }
-             cout << endl;
+            // cout << endl;
     }
     else // If current vertex is not destination
     {
@@ -82,19 +90,52 @@ void printAllPathsUtil(int z,int u, int d, bool visited[],
     visited[u] = false;
 }
 int main()
-{
-    create_graph();
-    for(int i=0;i<4;i++){
+{   
+    srand (time(NULL));
+	int max_seg=0;
+	int t,s1=0,d1=0,k1,k2,p1,p2,now;
+    int s[50];
+    int d[50];
+    int curr[50];
+    for(int i=0;i<V;i++)
+    {
+    	junc[i].lvi=0;
+    	junc[i].slvi=0;
+    }
+    //create_graph();
+    adj[0][1] = 1;
+    adj[0][2] = 1;
+    adj[0][3] = 1;
+    adj[2][0] = 1;
+    adj[2][1] = 1;
+    adj[1][3] = 1;
+    
 
-    	for(int j=0;j<4;j++)
+     cout<<"Enter the number of source and destination\n";
+    cin>>t;
+    while(t--)
+    {
+        cout<<"Enter the source for the  route\n";
+        cin>>s[s1];
+        s1++;
+        cout<<"Enter the destination for the  route\n";
+        cin>>d[d1];
+        d1++;
+
+ 
+    }
+    for(int i=0;i<V;i++){
+
+    	for(int j=0;j<V;j++)
     {
     	printAllPaths(i,j);
     }
     }
     
     cout<<endl;
+
     //int l=nodes[0].route.size();
-   //  cout<<l<<endl;
+   // cout<<l<<endl;
     for(int y=0;y<4;y++)
     {
     	for(int i=0;i<4;i++){
@@ -102,12 +143,91 @@ int main()
         for(int j=0;j<l;j++)
         {
         	int k=nodes[y].dis[i].route[j].size();
+        	if(k>max_seg)
+        		max_seg=k;
         	for(int z=0;z<k;z++)
-        		cout<<nodes[y].dis[i].route[j][z]<<" ";
-        	   cout<<endl;
+        		{
+        			//cout<<nodes[y].dis[i].route[j][z]<<" ";
+        		}
+        	  // cout<<endl;
         }
+     }
+    } 
+
+     //cout<<max_seg<<endl;
+
+    for(int i=1;i<max_seg;i++){
+
+    	for(int j=0;j<s1;j++)
+    	{
+              if(i==1)
+              {
+                     now=s[j];
+                   
+                   
+
+              }
+              else
+              {
+                            now=curr[j];
+              }
+                    if(curr[j]!=d[j])
+                    {
+                                 int len=nodes[now].dis[d[j]].route.size();
+
+                    //int isSecret=rand() % len;
+                   // cout<<isSecret<<endl;
+                    k1=junc[now].slvi;
+                    k2=junc[nodes[now].dis[d[j]].route[0][1]].slvi;
+                    p1=now;
+                    p2=nodes[now].dis[d[j]].route[0][1];
+                    //cout<<k1<<" "<<k2<<endl;
+                    //cout<<p1<<" "<<p2<<endl;
+                    if(k1==0 && k2==0)
+                    {
+                    	junc[p2].lvi=adj[p1][p2]+k1;
+                    }
+                    else if(k1==k2)
+                    {
+                              if(p2>p1)
+                              {
+                              	junc[p2].lvi=adj[p1][p2]+k1;
+                              }
+                              else
+                              {
+                              	junc[p2].lvi=2*adj[p1][p2]+k1;
+                              }
+                    }
+                    else if(k1<k2)
+                    {
+                    	junc[p2].lvi=adj[p1][p2]+k1;
+                    }
+                    else if(k1>k2)
+                    {
+                               if((k2+adj[p1][p2])<k1)
+                               {
+                               	junc[p2].lvi=adj[p1][p2]+k1;
+                               }
+                               else
+                               {
+                               	junc[p2].lvi=2*adj[p1][p2]+k1;
+                               }
+                    }
+
+                       curr[j]=p2;
+              
+    	}
+                    }
+               
+    	for(int j=0;j<V;j++)
+    {   
+
+        cout<<junc[j].lvi<<endl;
+        junc[j].slvi=junc[j].lvi;
     }
     }
+    
+   
     
 	return 0;
 }
