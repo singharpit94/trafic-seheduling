@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define V 4
+#define V 5
 #define INF 99999
 #define MAX 100  
 
@@ -26,6 +26,7 @@ struct distances nodes[V];
 int n;    /*Number of vertices in the graph*/
 int adj[MAX][MAX]; /*Adjacency Matrix*/
 int state[MAX]; /*can be initial, waiting or visited*/
+int disi[MAX][MAX];
 void create_graph();
 void printAllPathsUtil(int z,int u, int d, bool visited[],
                               int path[], int &path_index);
@@ -104,11 +105,33 @@ int main()
     }
     //create_graph();
     adj[0][1] = 1;
-    adj[0][2] = 1;
-    adj[0][3] = 1;
-    adj[2][0] = 1;
-    adj[2][1] = 1;
-    adj[1][3] = 1;
+    adj[1][0] = 1;
+   adj[0][2]=1;
+   adj[2][0]=1;
+   adj[1][2]=1;
+   adj[2][1]=1;
+   adj[1][3]=1;
+   adj[3][1]=1;
+   adj[2][4]=1;
+   adj[4][2]=1;
+   adj[2][3]=1;
+   adj[3][2]=1;
+   adj[3][4]=1;
+   adj[4][3]=1;
+    disi[0][1] = 3;
+    disi[1][0] = 3;
+   disi[0][2]=4;
+   disi[2][0]=4;
+   disi[1][2]=5;
+   disi[2][1]=5;
+   disi[1][3]=6;
+   disi[3][1]=6;
+   disi[2][4]=9;
+   disi[4][2]=9;
+   disi[2][3]=7;
+   disi[3][2]=7;
+   disi[3][4]=8;
+   disi[4][3]=8;
     
 
      cout<<"Enter the number of source and destination\n";
@@ -136,9 +159,9 @@ int main()
 
     //int l=nodes[0].route.size();
    // cout<<l<<endl;
-    for(int y=0;y<4;y++)
+    for(int y=0;y<V;y++)
     {
-    	for(int i=0;i<4;i++){
+    	for(int i=0;i<V;i++){
     	int l=nodes[y].dis[i].route.size();
         for(int j=0;j<l;j++)
         {
@@ -149,7 +172,7 @@ int main()
         		{
         			//cout<<nodes[y].dis[i].route[j][z]<<" ";
         		}
-        	  // cout<<endl;
+        	   //cout<<endl;
         }
      }
     } 
@@ -163,6 +186,7 @@ int main()
               if(i==1)
               {
                      now=s[j];
+                    // cout<<now<<endl;
                    
                    
 
@@ -170,6 +194,7 @@ int main()
               else
               {
                             now=curr[j];
+                            //cout<<now<<endl;
               }
                     if(curr[j]!=d[j])
                     {
@@ -185,32 +210,32 @@ int main()
                     //cout<<p1<<" "<<p2<<endl;
                     if(k1==0 && k2==0)
                     {
-                    	junc[p2].lvi=adj[p1][p2]+k1;
+                    	junc[p2].lvi=disi[p1][p2]+k1;
                     }
                     else if(k1==k2)
                     {
                               if(p2>p1)
                               {
-                              	junc[p2].lvi=adj[p1][p2]+k1;
+                              	junc[p2].lvi=disi[p1][p2]+k1;
                               }
                               else
                               {
-                              	junc[p2].lvi=2*adj[p1][p2]+k1;
+                              	junc[p2].lvi=2*disi[p1][p2]+k1;
                               }
                     }
                     else if(k1<k2)
                     {
-                    	junc[p2].lvi=adj[p1][p2]+k1;
+                    	junc[p2].lvi=disi[p1][p2]+k1;
                     }
                     else if(k1>k2)
                     {
-                               if((k2+adj[p1][p2])<k1)
+                               if((k2+disi[p1][p2])<k1)
                                {
-                               	junc[p2].lvi=adj[p1][p2]+k1;
+                               	junc[p2].lvi=disi[p1][p2]+k1;
                                }
                                else
                                {
-                               	junc[p2].lvi=2*adj[p1][p2]+k1;
+                               	junc[p2].lvi=2*disi[p1][p2]+k1;
                                }
                     }
 
@@ -219,10 +244,12 @@ int main()
     	}
                     }
                
+               cout<<"Nodes Values after  "<<i<<"  iterations\n";
     	for(int j=0;j<V;j++)
     {   
 
-        cout<<junc[j].lvi<<endl;
+       
+        cout<<"Node "<<j<<" ---  "<<junc[j].lvi<<endl;
         junc[j].slvi=junc[j].lvi;
     }
     }
@@ -233,7 +260,7 @@ int main()
 }
 void create_graph()
 {
-	int i,max_edges,origin,destin;
+	int i,max_edges,origin,destin,w;
 
 	printf("Enter number of vertices : ");
 	scanf("%d",&n);
@@ -243,6 +270,8 @@ void create_graph()
 	{
 		printf("Enter edge %d( -1 -1 to quit ) : ",i);
 		scanf("%d %d",&origin,&destin);
+		printf("Enter distance\n");
+		scanf("%d",&w);
 
 		if((origin == -1) && (destin == -1))
 			break;
@@ -254,6 +283,9 @@ void create_graph()
 		else
 		{
 			adj[origin][destin] = 1;
+			adj[destin][origin]=1;
+			disi[origin][destin]=w;
+			disi[destin][origin]=w;
 		}
 	}/*End of for*/
 }/*End of create_graph()*/

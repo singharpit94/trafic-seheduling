@@ -6,6 +6,8 @@ vector <vector<int> > route;
 int parent[V][V];
 int orien[V][V];
 int dist[V][V];
+int adj[V][V];
+void create_graph();
 struct nodes
 {
 	int lvi;
@@ -120,13 +122,15 @@ int main()
                        {12, 11, INF, INF, INF, INF, 2, 0, 9},
                        {INF, INF, 2, INF, INF, INF, 6, 9, 0}
                       };
- 
+    
+
     int t,s1=0,d1=0;
     int s[50];
     int d[50];
     int max_seg_size=0;
 
     memset(orien,INF,sizeof(orien));
+    memset(adj,INF,sizeof(orien));
     for(int i=0;i<9;i++)
     {
     	junc[i].lvi=0;
@@ -273,15 +277,49 @@ int main()
 
     	}
     }
+
+    cout<<"Nodes Values after  "<<i<<"  iterations\n";
     for(int j=0;j<9;j++)
     {   
-
-        cout<<junc[j].lvi<<endl;
+        
+        cout<<"Node "<<j<<" ---   "junc[j].lvi<<endl;
         junc[j].slvi=junc[j].lvi;
     }
     
     }
     
     
+   
     return 0;
 }
+
+void create_graph()
+{
+    int i,max_edges,origin,destin,w;
+
+    printf("Enter number of vertices : ");
+    scanf("%d",&n);
+    max_edges = n*(n-1);
+
+    for(i=1;i<=max_edges;i++)
+    {
+        printf("Enter edge %d( -1 -1 to quit ) : ",i);
+
+        scanf("%d %d",&origin,&destin);
+        printf("Enter distance\n");
+        scanf("%d",&w);
+
+        if((origin == -1) && (destin == -1))
+            break;
+        if( origin >= n || destin >= n || origin<0 || destin<0)
+        {
+            printf("Invalid edge!\n");
+            i--;
+        }
+        else
+        {
+            adj[origin][destin] = w;
+            adj[destin][origin]=w;
+        }
+    }/*End of for*/
+}/*End of create_graph()*/
