@@ -282,7 +282,7 @@ int main()
     for(int j=0;j<9;j++)
     {   
         
-        cout<<"Node "<<j<<" ---   "junc[j].lvi<<endl;
+        cout<<"Node "<<j<<" ---   "<<junc[j].lvi<<endl;
         junc[j].slvi=junc[j].lvi;
     }
     
@@ -295,7 +295,7 @@ int main()
 
 void create_graph()
 {
-    int i,max_edges,origin,destin,w;
+    int i,max_edges,origin,destin,w,n;
 
     printf("Enter number of vertices : ");
     scanf("%d",&n);

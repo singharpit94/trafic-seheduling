@@ -177,7 +177,7 @@ int main()
      }
     } 
 
-     //cout<<max_seg<<endl;
+     cout<<max_seg<<endl;
 
     for(int i=1;i<max_seg;i++){
 
@@ -186,7 +186,8 @@ int main()
               if(i==1)
               {
                      now=s[j];
-                    // cout<<now<<endl;
+                     cout<<now<<endl;
+                     cout<<d[j]<<endl;
                    
                    
 
@@ -194,18 +195,26 @@ int main()
               else
               {
                             now=curr[j];
-                            //cout<<now<<endl;
+                            cout<<now<<endl;
+                            cout<<d[j]<<endl;
               }
-                    if(curr[j]!=d[j])
+                    if(now!=d[j])
                     {
                                  int len=nodes[now].dis[d[j]].route.size();
 
-                    //int isSecret=rand() % len;
-                   // cout<<isSecret<<endl;
+                    int isSecret=rand() % len;
+                   //cout<<isSecret<<endl;
+                    int len1=nodes[now].dis[d[j]].route[isSecret].size();
+                    cout<<"Route Selected\n";
+                    for(int z=0;z<len1;z++)
+                    {
+                    	cout<<nodes[now].dis[d[j]].route[isSecret][z]<<" ";
+                    }
+                    cout<<endl;
                     k1=junc[now].slvi;
-                    k2=junc[nodes[now].dis[d[j]].route[0][1]].slvi;
+                    k2=junc[nodes[now].dis[d[j]].route[isSecret][1]].slvi;
                     p1=now;
-                    p2=nodes[now].dis[d[j]].route[0][1];
+                    p2=nodes[now].dis[d[j]].route[isSecret][1];
                     //cout<<k1<<" "<<k2<<endl;
                     //cout<<p1<<" "<<p2<<endl;
                     if(k1==0 && k2==0)
