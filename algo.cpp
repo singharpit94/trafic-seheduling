@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define V 9
+#define V 5
 #define INF 99999
 vector <vector<int> > route;
 int parent[V][V];
@@ -112,15 +112,12 @@ void store(int index,int src,int des)
 int main()
 {
     /* Let us create the example graph discussed above */
-    int graph[V][V] = {{0, 14, INF, INF, INF, INF, INF, 12, INF},
-                       {14, 0, 8, INF, INF, INF, INF, 11, INF},
-                       {INF, 8, 0, 7, INF, 4, INF, INF, 2},
-                       {INF, INF, 7, 0, 9, 14, INF, INF, INF},
-                       {INF, INF, INF, 9, 0, INF, INF, INF, INF},
-                       {INF, INF, 4, INF, INF, 0, 2, INF, INF},
-                       {INF, INF, INF, 14, INF, 2, 0, 2, 6},
-                       {12, 11, INF, INF, INF, INF, 2, 0, 9},
-                       {INF, INF, 2, INF, INF, INF, 6, 9, 0}
+    int graph[V][V] = {{0, 14, 12, INF, INF},
+                       {14, 0, 11, 8, INF },
+                       {12, 11, 0, 9, 2},
+                       {INF, 8, 9, 0, 6},
+                       {INF, INF, 2, 6,0}
+                       
                       };
     
 
@@ -237,35 +234,46 @@ int main()
                     else if(k1==k2)
                     {
 
+                       //loop should be checked
 
-
-                        cout<<route[j][i]<<" "<<route[j][i-1]<<endl;
+                        cout<<route[j][i-1]<<" "<<route[j][i]<<endl;
                         if(route[j][i]>route[j][i-1])
                         {
                             cout<<dist[route[j][i-1]][route[j][i]]<<endl;
+                            int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
                             cout<<junc[route[j][i]].lvi<<endl;
                         }
                         else
-                        {
+                        {   
+                            int yo=2*dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=2*dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
                         }
                     }
                     else if(k1<k2)
-                    {
+                    {         int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
                               junc[route[j][i]].lvi=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
                     }
                     else if(k1>k2)
-                    {
+                    { 
+                        //loop should be checked
                         int z1=junc[route[j][i]].slvi;
                         int z2=dist[route[j][i-1]][route[j][i]];
                         int z3=junc[route[j][i-1]].slvi;
                         if((z1+z2)<z3)
+
                         {
+                            int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
                         }
                         else
                         {
+                            int yo=2*dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=2*z2+z1;
                         }
                     }

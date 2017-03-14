@@ -94,7 +94,7 @@ int main()
 {   
     srand (time(NULL));
 	int max_seg=0;
-	int t,s1=0,d1=0,k1,k2,p1,p2,now;
+	int t,s1=0,d1=0,k1,k2,p1,p2,now,flag,i=1;
     int s[50];
     int d[50];
     int curr[50];
@@ -118,20 +118,20 @@ int main()
    adj[3][2]=1;
    adj[3][4]=1;
    adj[4][3]=1;
-    disi[0][1] = 3;
-    disi[1][0] = 3;
-   disi[0][2]=4;
-   disi[2][0]=4;
-   disi[1][2]=5;
-   disi[2][1]=5;
-   disi[1][3]=6;
-   disi[3][1]=6;
-   disi[2][4]=9;
-   disi[4][2]=9;
-   disi[2][3]=7;
-   disi[3][2]=7;
-   disi[3][4]=8;
-   disi[4][3]=8;
+    disi[0][1] = 14;
+    disi[1][0] = 14;
+   disi[0][2]=12;
+   disi[2][0]=12;
+   disi[1][2]=11;
+   disi[2][1]=11;
+   disi[1][3]=8;
+   disi[3][1]=8;
+   disi[2][4]=2;
+   disi[4][2]=2;
+   disi[2][3]=9;
+   disi[3][2]=9;
+   disi[3][4]=6;
+   disi[4][3]=6;
     
 
      cout<<"Enter the number of source and destination\n";
@@ -178,9 +178,10 @@ int main()
     } 
 
      cout<<max_seg<<endl;
-
+    i=1;
+    flag=1;
     for(int i=1;i<max_seg;i++){
-
+       
     	for(int j=0;j<s1;j++)
     	{
               if(i==1)
@@ -225,25 +226,37 @@ int main()
                     {
                               if(p2>p1)
                               {
+                                int yo=disi[p1][p2]+k1;
+                                if(yo>junc[p2].lvi)
                               	junc[p2].lvi=disi[p1][p2]+k1;
                               }
                               else
                               {
+                                 int yo=2*disi[p1][p2]+k1;
+                                if(yo>junc[p2].lvi)
                               	junc[p2].lvi=2*disi[p1][p2]+k1;
                               }
                     }
                     else if(k1<k2)
                     {
+                       int yo=disi[p1][p2]+k1;
+                      if(yo>junc[p2].lvi)
                     	junc[p2].lvi=disi[p1][p2]+k1;
                     }
                     else if(k1>k2)
                     {
                                if((k2+disi[p1][p2])<k1)
                                {
-                               	junc[p2].lvi=disi[p1][p2]+k1;
+                               	
+                                  int yo=disi[p1][p2]+k1;
+                                if(yo>junc[p2].lvi)
+                                junc[p2].lvi=disi[p1][p2]+k1;
                                }
                                else
                                {
+
+                                 int yo=2*disi[p1][p2]+k1;
+                                if(yo>junc[p2].lvi)
                                	junc[p2].lvi=2*disi[p1][p2]+k1;
                                }
                     }
@@ -261,6 +274,18 @@ int main()
         cout<<"Node "<<j<<" ---  "<<junc[j].lvi<<endl;
         junc[j].slvi=junc[j].lvi;
     }
+    flag=0;
+    //i++;
+
+     for(int u=0;u<s1;u++)
+     {
+      if(curr[u]!=d[u])
+      {
+        flag=1;
+        break;
+      }
+     }
+
     }
     
    
