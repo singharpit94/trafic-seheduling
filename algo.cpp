@@ -217,6 +217,7 @@ int main()
     {
     	for(int j=0;j<s1;j++)
     	{    
+            int flag=0;
             // cout<<route[j].size()<<endl;
     		if(i<route[j].size())
     		{
@@ -235,8 +236,18 @@ int main()
                     {
 
                        //loop should be checked
+                        for(int g1=0;g1<s1;g1++)
+                        {
+                            if(route[g1][i]==route[j][i])
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }
 
-                        cout<<route[j][i-1]<<" "<<route[j][i]<<endl;
+                          if(flag==1)
+                          {
+                              cout<<route[j][i-1]<<" "<<route[j][i]<<endl;
                         if(route[j][i]>route[j][i-1])
                         {
                             cout<<dist[route[j][i-1]][route[j][i]]<<endl;
@@ -251,6 +262,14 @@ int main()
                             if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=2*dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
                         }
+                          }
+                          else
+                          {
+                             int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
+                              junc[route[j][i]].lvi=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                          }
+                        
                     }
                     else if(k1<k2)
                     {         int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
@@ -260,7 +279,17 @@ int main()
                     else if(k1>k2)
                     { 
                         //loop should be checked
-                        int z1=junc[route[j][i]].slvi;
+                         for(int g1=0;g1<s1;g1++)
+                        {
+                            if(route[g1][i]==route[j][i])
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }
+                        if(flag==1)
+                        {
+                            int z1=junc[route[j][i]].slvi;
                         int z2=dist[route[j][i-1]][route[j][i]];
                         int z3=junc[route[j][i-1]].slvi;
                         if((z1+z2)<z3)
@@ -276,6 +305,14 @@ int main()
                             if(yo>junc[route[j][i]].lvi)
                             junc[route[j][i]].lvi=2*z2+z1;
                         }
+                        }
+                        else
+                        {
+                              int yo=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                            if(yo>junc[route[j][i]].lvi)
+                              junc[route[j][i]].lvi=dist[route[j][i-1]][route[j][i]]+junc[route[j][i-1]].slvi;
+                        }
+                        
                     }
 
 
