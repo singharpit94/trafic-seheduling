@@ -1,12 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define V 30
+#define V 5
 #define INF 99999
 #define MAX 100  
 int parent[V][V];
 int orien[V][V];
 int dist[V][V];
-int graph[V][V];
 struct places
 {
 	int lvi;
@@ -187,7 +186,7 @@ int main()
     	junc[i].lvi=0;
     	junc[i].slvi=0;
     }
-   // create_graph();
+    //create_graph();
    //  adj[0][1] = 1;
    //  adj[1][0] = 1;
    // adj[0][2]=1;
@@ -224,13 +223,22 @@ int main()
    //                     {INF, INF, 2, 6,0}
                        
    //                    };
-   // int graph [V][V];
+    int graph [V][V];
     int din;
    int max_time=0;
    int edgesg=0;
    ofstream myfile;
-     freopen("adj1.txt", "r", stdin);
-    
+     freopen("random.txt", "r", stdin);
+     for(int i=0;i<V;i++)
+     {
+      for(int j=0;j<V;j++)
+      {
+        cin>>din;
+        adj[i][j]=din;
+        if(din!=0)
+          edgesg++;
+      }
+     }
 
     for(int i=0;i<V;i++)
     {
@@ -241,34 +249,17 @@ int main()
         {
           graph[i][j]=INF;
           disi[i][j]=0;
-          adj[i][j]=0;
 
         }
         else
         {
           graph[i][j]=din;
           disi[i][j]=din;
-          adj[i][j]=1;
         }
       }
     }
 
-    // for (int i=0;i<V;i++)
-    // {
-    //   for (int j=0;j<V;j++)
-    //   {
-    //     cout<<adj[i][j]<<" ";
-    //   }
-    //   cout<<"\n";
-    // }
-    //  for (int i=0;i<V;i++)
-    // {
-    //   for (int j=0;j<V;j++)
-    //   {
-    //     cout<<disi[i][j]<<" ";
-    //   }
-    //   cout<<"\n";
-    // }
+     
     floydwarshall(graph);
     for(int k=0;k<V;k++)
     {
@@ -279,19 +270,19 @@ int main()
     }
     }
 
-    // for(int k=0;k<V;k++)
-    // {
-    //     for(int i=0;i<V;i++)
-    // {
-    //     int l=sdist[k].sd[i].size();
-    //     reverse(sdist[k].sd[i].begin(),sdist[k].sd[i].end());
-    //     for(int j=0;j<l;j++)
-    //     {
-    //         cout<<sdist[k].sd[i][j]<<" ";
-    //     }
-    //     cout<<endl;
-    // }
-    // }
+    for(int k=0;k<V;k++)
+    {
+        for(int i=0;i<V;i++)
+    {
+        int l=sdist[k].sd[i].size();
+        reverse(sdist[k].sd[i].begin(),sdist[k].sd[i].end());
+        for(int j=0;j<l;j++)
+        {
+            cout<<sdist[k].sd[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    }
 
      cout<<"Enter the number of source and destination\n";
     cin>>t;
@@ -314,7 +305,7 @@ int main()
     }
     }
     
-   // cout<<endl;
+    cout<<endl;
 
     //int l=nodes[0].route.size();
    // cout<<l<<endl;
@@ -360,22 +351,7 @@ int main()
                     if(now!=d[j])
                     {
 
-                               int g1=junc[now].slvi;
-                               int g2=junc[sdist[now].sd[d[j]][1]].slvi;
-                               cout<<g1<<" "<<g2<<endl;
-                               if(g1<g2||(g1==0 && g2==0))
-                               {
-                                      p1=now;
-                                      p2=sdist[now].sd[d[j]][1];
-                                       int yo=disi[p1][p2]+g1;
-                                        if(yo>junc[p2].lvi)
-                                        {
-                                          junc[p2].lvi=disi[p1][p2]+g1;
-                                        }
-                                      curr[j]=p2;
-
-                               }
-                              else
+                              
                                 {
                                         int len=nodes[now].dis[d[j]].route.size();
                                         int isSecret=rand() % len;
